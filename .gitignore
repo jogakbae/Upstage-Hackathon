@@ -1,0 +1,10 @@
+# Secrets and private source files
+private/
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Local exports
+n8n-export-private.json

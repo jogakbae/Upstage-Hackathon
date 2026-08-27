@@ -1,82 +1,152 @@
-# Upstage-Hackathon
-2025 대구울산경북 대학교 AI Agent 해커톤
+# 출장비 부정 청구 탐지 시스템
 
-# Solar Audit FDS (지능형 출장비 부정 청구 탐지 시스템)
+> 영수증 이미지와 출장 경로 데이터를 Upstage Solar LLM, Kakao Map, n8n으로 연결한 지능형 비용 감사 자동화 시스템
 
-![n8n](https://img.shields.io/badge/n8n-workflow-orange?style=for-the-badge&logo=n8n)
-![Upstage](https://img.shields.io/badge/AI-Upstage_Solar-purple?style=for-the-badge)
-![KakaoMap](https://img.shields.io/badge/API-Kakao_Map-yellow?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+## 프로젝트 요약
 
-> **"Fact(위치 데이터)와 Logic(Solar LLM)을 결합하여, 출장비 누수를 원천 차단하는 AI 감사 에이전트"**
+기업 출장비 심사는 영수증 텍스트만 확인하면 허위 출장, 경로 이탈, 업무 무관 품목, 과다한 유류비를 놓치기 쉽습니다. 이 프로젝트는 영수증에서 지출 정보를 추출하고, 출장 경로·기간·지출 품목·금액을 함께 검증해 감사 결과를 자동으로 생성합니다.
 
-## 📖 Project Overview
-기업의 경비 지출 관리는 여전히 담당자의 육안 검사와 직원의 양심에 의존하고 있습니다. 기존 OCR 기술은 텍스트는 읽을 수 있지만, **"부산 출장자가 서울에서 결제했다"**는 **맥락(Context)**은 검증하지 못합니다.
+핵심 방향은 `LLM이 읽는 정보`와 `API·수식으로 확인하는 사실`을 분리한 뒤 n8n에서 하나의 판정 흐름으로 결합하는 것입니다.
 
-**Solar Audit FDS**는 영수증의 텍스트 정보와 실제 물리적 이동 경로를 교차 검증(Cross-Validation)하여, 허위 출장 및 경로 이탈과 같은 부정 청구를 실시간으로 탐지하는 **지능형 FDS(Fraud Detection System)**입니다.
+## Demo
 
-### 🏆 Achievements
-- **[2025 Upstage AI Hackathon]** 제출 프로젝트
-- 비정형 영수증 데이터의 정형화 및 자동 감사 파이프라인 구축
+- [발표자료](./docs/presentation.pdf)
+- [n8n 워크플로 이미지](./assets/workflow.png)
+- 데모 영상: 업로드 후 링크 추가 예정
 
----
+GitHub README에는 동영상 파일을 직접 커밋하기보다 YouTube, Loom 또는 GitHub Issue 댓글에 영상을 업로드한 뒤 링크를 연결하는 방식을 권장합니다.
 
-## 🏗️ System Architecture
-![Architecture](./assets/architecture.png)
+```md
+[![Demo video](https://img.youtube.com/vi/<VIDEO_ID>/0.jpg)](https://youtu.be/<VIDEO_ID>)
+```
 
-본 프로젝트는 별도의 백엔드 서버 없이 **n8n**을 활용한 **Serverless Workflow**로 구현되었습니다.
+## 문제 정의
 
-1.  **Ingestion:** 영수증 이미지 일괄 업로드 (Batch Processing)
-2.  **Extraction (Upstage Solar):** 지출 성격 분류 및 금지 품목(주류 등) 태깅
-3.  **Enrichment (Map API):** 출발지-목적지 간 실제 이동 거리 및 경로 데이터 확보
-4.  **Judgment (Solar Agent):** 위치 기반 경로 이탈 확인 및 유류비 적정성 수학적 검증
-5.  **Reporting:** Google Sheets 적재 및 담당자 알림 (Slack/Email)
+- 육안 검수와 신뢰에 의존하는 출장비 검증
+- 영수증 OCR만으로는 지리적 정합성·유류비 적정성 판단 불가
+- 다수 영수증 처리와 감사 결과 리포팅에 반복 작업 발생
 
----
+## 해결 방식
 
-## ✨ Key Features
+1. 사용자가 영수증 이미지/PDF, 출장 시작일·복귀일, 출발지·목적지를 제출합니다.
+2. Upstage Solar Pro 2가 영수증에서 지출일자, 지출처, 지출내용, 금액을 구조화합니다.
+3. Solar Pro 2가 지출 항목을 회계 분류 체계로 분류합니다.
+4. Kakao Local API와 Kakao Mobility Directions API로 출발지·목적지 좌표와 이동 거리를 계산합니다.
+5. AI Judgement Agent가 출장 기간, 품목, 유류비 한도, 출장 경로 정보를 바탕으로 `합격/불합격`과 사유를 JSON으로 반환합니다.
+6. 결과를 Google Sheets에 기록하고, 요약 리포트를 웹 화면으로 출력합니다. 이메일 전송은 선택 기능입니다.
 
-### 1. Context-Aware Extraction (맥락 인식 정보 추출)
-단순 OCR을 넘어 **Upstage Solar Pro**를 활용해 영수증의 맥락을 분석합니다.
-- `식대` vs `유류비` 등 지출 성격 자동 분류
-- `주류`, `담배` 등 업무 무관 품목 포함 여부 정밀 탐지
+## 시스템 흐름
 
-### 2. Geospatial Logic (위치 기반 교차 검증)
-영수증의 결제 장소가 실제 출장 경로 상에 위치하는지 수학적으로 검증합니다.
-- **Geofencing:** 출발지↔목적지 벡터 경로 반경(예: 5km) 이내 결제 건만 승인
-- **Math Logic:** `(이동거리 ÷ 연비) × 유가` 공식을 프롬프트에 주입하여 유류비 과다 청구 적발
+```text
+영수증/PDF + 출장 정보
+        |
+        v
+n8n Webhook
+        |
+        +--> 다중 파일 분리
+        |       +--> Solar Pro 2 정보 추출
+        |       +--> Solar Pro 2 지출 분류
+        |
+        +--> Kakao 주소 검색 + 경로 거리 계산
+                    |
+                    v
+        AI Judgement + Structured Output Parser
+                    |
+                    +--> Google Sheets 기록
+                    +--> 결과 요약 화면
+                    +--> 이메일 전송(선택)
+```
 
-### 3. Strict JSON Enforcement (환각 제어)
-LLM의 비정형 출력을 시스템에 연동하기 위해 엄격한 데이터 파이프라인을 설계했습니다.
-- **Output Parser** 적용으로 100% 실행 가능한 JSON 포맷 강제
-- `Reasoning`(추론)과 `Result`(결과)를 분리하여 설명 가능한 AI(XAI) 구현
+## 핵심 기술
 
----
+### Context-aware 영수증 분석
 
-## 🎥 Demo Scenarios
+단순 텍스트 OCR 결과가 아니라 다음 필드를 JSON으로 추출합니다.
 
-| Scenario A (정상) | Scenario B (경로 이탈) |
-| :---: | :---: |
-| ![Pass](./assets/demo_pass.gif) | ![Fail](./assets/demo_fail.gif) |
-| 경로 내 휴게소 식사 → **합격** | 대전 출장 중 강릉 결제 → **불합격** |
+- `expense_date`
+- `vendor`
+- `description`
+- `amount`
 
-> **Business Impact:**
-> * 건당 처리 시간: 5분 → **3초 (99% 단축)**
-> * 부정 청구 탐지율: **Zero Leakage (비용 누수 원천 차단)**
+지출 분류 노드는 `유류대`, `여비교통비`, `복리후생비` 등 회계 항목을 분류합니다.
 
----
+### Fact와 Claim 결합
 
-## 🚀 How to Run
+- Fact: Kakao API가 계산한 출발지·목적지 좌표와 이동 거리
+- Claim: 영수증에서 추출한 지출일자·지출처·지출내용·금액
+- Logic: 출장 기간, 지출 품목, 유류비 한도, 경로 관련 규칙
+- Output: `judgment`, `reason`만 포함하는 구조화된 판정 결과
 
-이 프로젝트는 **n8n** 워크플로우 JSON 파일로 제공됩니다.
+### LLM 출력 안정화
 
-### Prerequisites
-- [n8n](https://n8n.io/) (Self-hosted or Cloud)
-- Upstage API Key
-- Kakao Map API Key
-- Google Cloud Service Account (for Sheets)
+`Structured Output Parser`와 JSON schema를 사용해 AI Judgement 결과를 두 필드로 제한합니다.
 
-### Installation
-1. Repository를 Clone 합니다.
-   ```bash
-   git clone [https://github.com/](https://github.com/)[your-username]/solar-audit-fds.git
+```json
+{
+  "judgment": "합격",
+  "reason": "출장 기간과 지출 기준을 충족한 이유로 합격"
+}
+```
+
+## 현재 판정 규칙
+
+- 시간: 지출일시가 출장 시작일 00:00부터 복귀일 23:59 사이인지 확인
+- 품목: 주류, 담배, 상품권, 유흥 관련 키워드 포함 여부 확인
+- 유류비: `지출분류`가 `유류대`일 때 `(총거리 ÷ 10) × 1700 × 1.3` 한도와 청구 금액 비교
+- 위치: 출발지·목적지·지출처 주소의 행정구역 또는 경로 일치 여부를 판단하도록 설계
+
+## 현재 한계와 개선 방향
+
+포트폴리오에서는 구현 범위와 보완점을 함께 공개하는 것이 신뢰도를 높입니다.
+
+- 현재 정보 추출 schema가 `지출처 주소`를 별도 필드로 추출하지 않아 결제 지점의 실제 경로상 여부는 완전 검증이 어렵습니다.
+- Kakao Directions의 거리 단위와 유류비 수식 단위를 명시적으로 통일해야 합니다. 운영 전 미터/킬로미터 변환을 테스트해야 합니다.
+- 실제 데이터셋 기반 precision, recall, false positive 비율을 추가 측정할 수 있습니다.
+- API key, webhook URL, Google Sheets ID는 환경 변수와 n8n Credentials로 분리해야 합니다.
+- 공개 운영 시 webhook 인증, 요청 크기 제한, rate limit, 개인정보 보관 정책이 필요합니다.
+
+## 실행 방법
+
+### 1. n8n workflow import
+
+1. n8n에서 `workflow.json`을 import합니다.
+2. Upstage, Kakao, Google Sheets, Gmail Credentials를 연결합니다.
+3. `YOUR_SHEET_ID`와 `your-n8n-host.example` placeholder를 실제 환경 값으로 교체합니다.
+4. workflow를 활성화합니다.
+
+`workflow.json`은 공개용으로 credential 객체와 실제 webhook·Google Sheets 식별자를 제거한 파일입니다. 원본 export는 `private/`에 보관하며 Git에 올리지 않습니다.
+
+### 2. 입력값
+
+백엔드 webhook `POST /webhook/apply`에 multipart form-data로 다음 값을 전달합니다.
+
+- `file`: 영수증 이미지/PDF. 여러 파일 가능
+- `start_date`: 출장 시작일
+- `end_date`: 출장 복귀일
+- `origin`: 출발지
+- `destination`: 목적지
+
+프론트엔드 `GET /webhook/index`는 제출 화면을 반환합니다.
+
+## 저장소 구조
+
+```text
+.
+├── README.md
+├── workflow.json              # 공개용 n8n workflow
+├── assets/
+│   └── workflow.png           # workflow 시각화
+├── docs/
+│   └── presentation.pdf       # 발표자료
+└── private/                   # 원본 export·개인 메모, Git 제외
+```
+
+## 팀
+
+- 천창용: 팀장, AI Agent 처리, 발표
+- 조희종: n8n workflow 총괄, 기능 구현
+- 최현호: 거리 계산 시스템 구현, 기능 구현
+
+## 사용 기술
+
+`Upstage Solar Pro 2` · `n8n` · `Kakao Local API` · `Kakao Mobility Directions API` · `Google Sheets` · `Gmail`

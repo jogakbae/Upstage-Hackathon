@@ -1,0 +1,1125 @@
+﻿{
+    "name":  "Workflow webhook",
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "binaryPropertyName":  "File",
+                                         "schemaInputType":  "json",
+                                         "rawJsonSchema":  "[\n  { \"const\": \"원재료비\", \"description\": \"제품·공사에 직접 사용되는 주원재료 구매비. (예: 철근, 목재, 원단, 화학재료 등)\" },\n  { \"const\": \"매입불입\", \"description\": \"원재료 구입 시 선지급 또는 중도금 성격의 지급액. 재료대금 일부 지불.\" },\n  { \"const\": \"부재료비\", \"description\": \"주원재료 외 보조적 재료 비용. (예: 접착제, 나사, 포장재 등)\" },\n  { \"const\": \"급여\", \"description\": \"정규직 직원의 월급 지급 관련 비용. (세전 급여)\" },\n  { \"const\": \"임금\", \"description\": \"생산·공사 현장 인력의 인건비. (현장 작업자 급여)\" },\n  { \"const\": \"상여금\", \"description\": \"명절·휴가·연말 등 지급되는 비정기 상여금.\" },\n  { \"const\": \"제수당\", \"description\": \"야근·특근·직책수당 등 임금 외 각종 수당.\" },\n  { \"const\": \"잡급\", \"description\": \"일용직·임시직·단기 아르바이트 인력 인건비.\" },\n  { \"const\": \"퇴직급여\", \"description\": \"퇴직금 및 퇴직충당금 지급 관련 비용.\" },\n  { \"const\": \"복리후생비\", \"description\": \"직원 식대·간식·복지 관련 비용 및 회사 부담 4대보험료.\" },\n  { \"const\": \"여비교통비\", \"description\": \"출장, 이동, 교통수단 이용비. (예: 택시, 버스, 기차)\" },\n  { \"const\": \"접대비\", \"description\": \"거래처 접대 목적의 식사·음료·선물 비용.\" },\n  { \"const\": \"통신비\", \"description\": \"현장 전화요금·인터넷·팩스 등 통신 서비스 비용.\" },\n  { \"const\": \"가스수도료\", \"description\": \"생산·공사 현장의 수도·가스·난방 요금.\" },\n  { \"const\": \"전력비\", \"description\": \"전기요금 및 전력 사용 관련 지출.\" },\n  { \"const\": \"세금과공과금\", \"description\": \"재산세·종합토지세 등 공장·자산 관련 세금 및 공과금.\" },\n  { \"const\": \"감가상각비\", \"description\": \"기계·장비·공장건물 등 고정자산 감가상각비.\" },\n  { \"const\": \"지급수수료\", \"description\": \"용역·대행·중개 등 수수료 지급. (예: 은행 수수료 제외)\" },\n  { \"const\": \"수선비\", \"description\": \"기계·장비·건물 등 유지보수·수리 비용.\" },\n  { \"const\": \"보험료\", \"description\": \"차량·공장·설비·화재보험 등 보험료 납부액.\" },\n  { \"const\": \"차량유지비\", \"description\": \"업무용 차량의 연료비·정비비·세차비·보험료 등 유지 비용.\" },\n  { \"const\": \"연구개발비\", \"description\": \"신기술·신제품 개발을 위한 실험·재료·테스트 비용.\" },\n  { \"const\": \"보관료\", \"description\": \"제품·자재 등의 창고·보관 서비스 이용료.\" },\n  { \"const\": \"도서인쇄비\", \"description\": \"도서 구매, 신문 구독, 출력·복사·인쇄 비용.\" },\n  { \"const\": \"회의비\", \"description\": \"회의 운영 관련 식대·음료·장소 사용 비용.\" },\n  { \"const\": \"사무용품비\", \"description\": \"펜·파일·프린터 용지 등 일반 사무용품 구매비.\" },\n  { \"const\": \"소모품비\", \"description\": \"현장에서 사용되는 단기 소모품. (예: 장갑, 마스크, 공구 소모품)\" },\n  { \"const\": \"외주가공비\", \"description\": \"생산 공정을 외부 업체에 맡긴 임가공 비용.\" },\n  { \"const\": \"시험비\", \"description\": \"품질검사·제품 시험 성능 테스트 비용.\" },\n  { \"const\": \"기밀비\", \"description\": \"현장 운영비·잡다한 경비(판공비 등).\" },\n  { \"const\": \"잡비\", \"description\": \"어느 항목에도 속하지 않는 기타 소규모 비용.\" },\n  { \"const\": \"하자보수비\", \"description\": \"공사·납품 품목의 하자 처리 및 보수 관련 지출.\" },\n  { \"const\": \"장비임차료\", \"description\": \"중장비·기계·공구 등의 임대 사용료.\" },\n  { \"const\": \"유류대\", \"description\": \"유류 구매 비용. (예: 주유소 연료비)\" }\n]"
+                                     },
+                      "type":  "n8n-nodes-upstage.documentClassificationUpstage",
+                      "typeVersion":  1,
+                      "position":  [
+                                       400,
+                                       336
+                                   ],
+                      "id":  "978ad786-b81d-4066-b570-91ff73df5ef2",
+                      "name":  "Classify Recipe"
+                  },
+                  {
+                      "parameters":  {
+                                         "binaryPropertyName":  "=File",
+                                         "json_schema":  "{\n      \"type\": \"object\",\n      \"properties\": {\n        \"expense_date\": {\n          \"type\": \"string\",\n          \"description\": \"지출일자\"\n        },\n        \"vendor\": {\n          \"type\": \"string\",\n          \"description\": \"지출처\"\n        },\n        \"description\": {\n          \"type\": \"string\",\n          \"description\": \"지출내용\"\n        },\n        \"amount\": {\n          \"type\": \"string\",\n          \"description\": \"금액\"\n        }\n      }\n}"
+                                     },
+                      "type":  "n8n-nodes-upstage.informationExtractionUpstage",
+                      "typeVersion":  1,
+                      "position":  [
+                                       400,
+                                       144
+                                   ],
+                      "id":  "47f09b8c-c175-4e51-8d7e-a4d9aa84f6bc",
+                      "name":  "Extract Info"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "a785e859-d415-43dc-8bde-6d42b46c2cff",
+                                                                                     "name":  "지출일시",
+                                                                                     "value":  "={{ $json.combined[0].extracted.expense_date }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "95e9bf46-6f86-454b-9519-79b2c2ca62ad",
+                                                                                     "name":  "지출처",
+                                                                                     "value":  "={{ $json.combined[0].extracted.vendor }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "53554f06-6633-4dc8-8d54-84f9d88068ee",
+                                                                                     "name":  "지출분류",
+                                                                                     "value":  "={{ $json.combined[1].classification }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "2845a57e-f2cd-4dc8-9dae-f44bcfa10fcc",
+                                                                                     "name":  "지출내용",
+                                                                                     "value":  "={{ $json.combined[0].extracted.description }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "508566e3-7620-43c8-9e3a-4e3f68479d36",
+                                                                                     "name":  "금액",
+                                                                                     "value":  "={{ $json.combined[0].extracted.amount }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "6d7d1ebe-2775-42d6-adf8-eacd5743a230",
+                                                                                     "name":  "거리",
+                                                                                     "value":  "={{ $(\u0027Get Route\u0027).first().json.routes[0].summary.distance }}",
+                                                                                     "type":  "string"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.4,
+                      "position":  [
+                                       944,
+                                       256
+                                   ],
+                      "id":  "fbd7d9c2-b932-4eb6-87fd-7d0bea464d30",
+                      "name":  "Edit Fields"
+                  },
+                  {
+                      "parameters":  {
+                                         "numberInputs":  3
+                                     },
+                      "type":  "n8n-nodes-base.merge",
+                      "typeVersion":  3.2,
+                      "position":  [
+                                       592,
+                                       240
+                                   ],
+                      "id":  "689bd31b-27bd-4599-a7cb-62c8a4184047",
+                      "name":  "Merge",
+                      "executeOnce":  false
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "return [\n  {\n    combined: items.map(item =\u003e item.json)\n  }\n];\n"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       768,
+                                       256
+                                   ],
+                      "id":  "91fbc1be-64e1-47b8-8690-bd948cae05b3",
+                      "name":  "Merge items"
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "appendOrUpdate",
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "YOUR_SHEET_ID",
+                                                            "mode":  "list",
+                                                            "cachedResultName":  "Upstage",
+                                                            "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  1638463003,
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "지출",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1638463003"
+                                                       },
+                                         "columns":  {
+                                                         "mappingMode":  "autoMapInputData",
+                                                         "value":  {
+
+                                                                   },
+                                                         "matchingColumns":  [
+
+                                                                             ],
+                                                         "schema":  [
+                                                                        {
+                                                                            "id":  "지출일시",
+                                                                            "displayName":  "지출일시",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "지출처",
+                                                                            "displayName":  "지출처",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "지출분류",
+                                                                            "displayName":  "지출분류",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "지출내용",
+                                                                            "displayName":  "지출내용",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "금액",
+                                                                            "displayName":  "금액",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "승인여부",
+                                                                            "displayName":  "승인여부",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "비고",
+                                                                            "displayName":  "비고",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        }
+                                                                    ],
+                                                         "attemptToConvertTypes":  false,
+                                                         "convertFieldsToString":  false
+                                                     },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.googleSheets",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       1696,
+                                       256
+                                   ],
+                      "id":  "7a18c757-27d9-49ec-ae21-d48eee4a32aa",
+                      "name":  "Append to Sheet"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "## 파일 인식, 분류 후 데이터 정제\n",
+                                         "height":  400,
+                                         "width":  1280
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -176,
+                                       128
+                                   ],
+                      "id":  "04bce7af-a5c7-44dd-a347-e4f88c84aab6",
+                      "name":  "Sticky Note"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "## 데이터 삽입",
+                                         "height":  400,
+                                         "width":  214
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       1632,
+                                       128
+                                   ],
+                      "id":  "4d1af9ff-9dd1-41b1-97f0-03da4dbc9e46",
+                      "name":  "Sticky Note1"
+                  },
+                  {
+                      "parameters":  {
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.splitInBatches",
+                      "typeVersion":  3,
+                      "position":  [
+                                       208,
+                                       240
+                                   ],
+                      "id":  "6c3d830d-dc57-4310-9f3a-b7948c05890d",
+                      "name":  "Loop Over Items"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const newItems = [];\n\nfor (const item of items) {\n  if (item.binary) {\n    const allKeys = Object.keys(item.binary);\n\n    for (const key of allKeys) {\n      newItems.push({\n        json: {\n          type: \u0027file\u0027,\n          name: \u0027receipt\u0027, // 필요시 용도에 맞게 변경 가능\n          fileName: item.binary[key].fileName || \u0027unknown_file\u0027\n        },\n        binary: {\n          File: item.binary[key]\n        }\n      });\n    }\n  }\n}\n\nreturn newItems;"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       32,
+                                       240
+                                   ],
+                      "id":  "6f2f184a-56e0-4eda-b8e2-b6353f00bd5b",
+                      "name":  "Handle multiple files"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "## 거리 계산",
+                                         "height":  224,
+                                         "width":  592
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -176,
+                                       544
+                                   ],
+                      "id":  "fb9ce7de-0588-4fe1-a125-fe61cae91c3c",
+                      "name":  "Sticky Note3"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "# 위치 기반 데이터와 Solar LLM을 결합한 지능형 출장비 부정 청구 탐지 시스템",
+                                         "height":  80,
+                                         "width":  1184
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -176,
+                                       -176
+                                   ],
+                      "id":  "e2b2553c-b9a4-4979-8c17-8321a76a82cf",
+                      "name":  "Sticky Note4"
+                  },
+                  {
+                      "parameters":  {
+                                         "url":  "https://dapi.kakao.com/v2/local/search/address.json",
+                                         "sendQuery":  true,
+                                         "queryParameters":  {
+                                                                 "parameters":  [
+                                                                                    {
+                                                                                        "name":  "query",
+                                                                                        "value":  "={{ $(\u0027Webhook\u0027).item.json.body[\u0027destination\u0027] }}"
+                                                                                    }
+                                                                                ]
+                                                             },
+                                         "sendHeaders":  true,
+                                         "headerParameters":  {
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "Authorization",
+                                                                                         "value":  "YOUR_KAKAO_REST_API_KEY"
+                                                                                     }
+                                                                                 ]
+                                                              },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.3,
+                      "position":  [
+                                       80,
+                                       608
+                                   ],
+                      "id":  "2f438c94-e7fa-437e-aac5-de83996a4196",
+                      "name":  "Get Dest"
+                  },
+                  {
+                      "parameters":  {
+                                         "url":  "https://apis-navi.kakaomobility.com/v1/directions",
+                                         "sendQuery":  true,
+                                         "queryParameters":  {
+                                                                 "parameters":  [
+                                                                                    {
+                                                                                        "name":  "origin",
+                                                                                        "value":  "={{ $(\u0027Get Origin\u0027).item.json.documents[0].address.x }},{{ $(\u0027Get Origin\u0027).item.json.documents[0].address.y }}"
+                                                                                    },
+                                                                                    {
+                                                                                        "name":  "destination",
+                                                                                        "value":  "={{ $json.documents[0].address.x }},{{ $json.documents[0].y }}"
+                                                                                    }
+                                                                                ]
+                                                             },
+                                         "sendHeaders":  true,
+                                         "headerParameters":  {
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "Authorization",
+                                                                                         "value":  "YOUR_KAKAO_REST_API_KEY"
+                                                                                     }
+                                                                                 ]
+                                                              },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "name":  "Get Route",
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  3,
+                      "position":  [
+                                       256,
+                                       608
+                                   ],
+                      "id":  "65a5c5e9-6eb7-413c-996f-51a66e00a4a3"
+                  },
+                  {
+                      "parameters":  {
+                                         "url":  "https://dapi.kakao.com/v2/local/search/address.json",
+                                         "sendQuery":  true,
+                                         "queryParameters":  {
+                                                                 "parameters":  [
+                                                                                    {
+                                                                                        "name":  "query",
+                                                                                        "value":  "={{ $json.body[\u0027origin\u0027] }}"
+                                                                                    }
+                                                                                ]
+                                                             },
+                                         "sendHeaders":  true,
+                                         "headerParameters":  {
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "Authorization",
+                                                                                         "value":  "YOUR_KAKAO_REST_API_KEY"
+                                                                                     }
+                                                                                 ]
+                                                              },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.3,
+                      "position":  [
+                                       -96,
+                                       608
+                                   ],
+                      "id":  "3d532d9c-17e8-44aa-9174-7e454dadd3d7",
+                      "name":  "Get Origin"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "## 당위성 판단\n",
+                                         "height":  592,
+                                         "width":  464
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       1136,
+                                       128
+                                   ],
+                      "id":  "24f38678-f922-4e69-b016-104738220e7e",
+                      "name":  "Sticky Note5"
+                  },
+                  {
+                      "parameters":  {
+                                         "promptType":  "define",
+                                         "text":  "={{ $input.all()}}",
+                                         "options":  {
+                                                         "systemMessage":  "이 정보로 레포트를 작성하세요."
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.agent",
+                      "typeVersion":  3,
+                      "position":  [
+                                       2048,
+                                       240
+                                   ],
+                      "id":  "e6ad645a-2a60-44a0-b2c2-c106d1eeb298",
+                      "name":  "Result Summarizer"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "## 요약 및 결과 출력",
+                                         "height":  400,
+                                         "width":  800
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       1888,
+                                       128
+                                   ],
+                      "id":  "298d5186-5c54-437b-bdd8-6af0b77424be",
+                      "name":  "Sticky Note2"
+                  },
+                  {
+                      "parameters":  {
+                                         "schemaType":  "manual",
+                                         "inputSchema":  "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"judgment\": {\n      \"type\": \"string\",\n      \"enum\": [\"합격\", \"불합격\"],\n      \"description\": \"최종 판정 결과\"\n    },\n    \"reason\": {\n      \"type\": \"string\",\n      \"description\": \"~한 이유로 합격 또는 ~한 이유로 불합격 형태의 문장\"\n    }\n  },\n  \"required\": [\"judgment\", \"reason\"]\n}",
+                                         "autoFix":  true
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.outputParserStructured",
+                      "typeVersion":  1.3,
+                      "position":  [
+                                       1200,
+                                       512
+                                   ],
+                      "id":  "7479ef1a-afd3-404a-9a24-cb406e1f347a",
+                      "name":  "Structured Output Parser"
+                  },
+                  {
+                      "parameters":  {
+                                         "model":  "solar-pro2",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-upstage.lmChatModelUpstage",
+                      "typeVersion":  1,
+                      "position":  [
+                                       2032,
+                                       400
+                                   ],
+                      "id":  "78956114-def5-4a85-8e21-14095bc356d1",
+                      "name":  "Solar Agent"
+                  },
+                  {
+                      "parameters":  {
+                                         "promptType":  "define",
+                                         "text":  "=지출일시: {{ $json[\u0027지출일시\u0027] }}\n지출처: {{ $json[\u0027지출처\u0027] }}\n지출분류: {{ $json[\u0027지출분류\u0027] }}\n지출내용: {{ $json[\u0027지출내용\u0027] }}\n금액: {{ $json[\u0027금액\u0027] }}\n거리: {{ $json[\u0027거리\u0027] }}\n출발지:{{ $(\u0027Webhook\u0027).first().json.body[\u0027origin\u0027] }}\n목적지:{{ $(\u0027Webhook\u0027).first().json.body[\u0027destination\u0027] }}\n출발일:{{ $(\u0027Webhook\u0027).first().json.body[\u0027start_date\u0027] }}\n복귀일:{{ $(\u0027Webhook\u0027).first().json.body[\u0027end_date\u0027] }}",
+                                         "hasOutputParser":  true,
+                                         "options":  {
+                                                         "systemMessage":  "### Role\n당신은 기업의 **비용 처리 감사 AI(Expense Audit AI)**입니다.\n제출된 [지출 내역]과 [출장 정보]를 대조하여 규정 위반 여부를 판단하십시오.\n\n### Audit Rules (심사 규정)\n아래 위반 사항이 **하나라도** 발견되면 \"불합격\"입니다. 모두 통과해야 \"합격\"입니다.\n\n1. **위치(Location)**:\n   - `지출처주소`가 `출발지`나 `목적지`의 행정구역(시/군/구)과 일치하거나, 두 지역 사이의 논리적 경로 상에 있어야 합니다.\n   - 엉뚱한 지역(예: 서울-강릉 출장인데 부산 결제)은 위반입니다. (단, \u0027휴게소\u0027가 포함된 경우 예외적으로 허용)\n\n2. **유류비(Fuel)**:\n   - `지출분류`가 \u0027유류대\u0027인 경우에만 적용합니다.\n   - **한도 계산식:** `(총거리 ÷ 10) × 1700 × 1.3`\n   - 청구 금액이 위 한도 계산값을 초과하면 위반입니다.\n\n3. **시간(Time)**:\n   - `지출일시`가 `출발일` 00:00부터 `복귀일` 23:59 사이에 존재하지 않으면 위반입니다.\n\n4. **품목(Content)**:\n   - 주류, 담배, 상품권, 유흥 관련 키워드가 포함되면 위반입니다.\n\n### Output Constraint (매우 중요)\n1. 결과는 반드시 **JSON 포맷**이어야 합니다.\n2. JSON 객체 안에는 **오직 `judgment`와 `reason` 두 개의 키(Key)만 존재해야 합니다.**\n3. 다른 부가적인 필드(risk_score, comment 등)를 **절대 추가하지 마십시오.**\n4. `reason`의 문장은 반드시 **\"~한 이유로 합격\"** 또는 **\"~한 이유로 불합격\"**으로 끝맺으십시오.\n\n### Output Schema Example\n{\n  \"judgment\": \"합격\",\n  \"reason\": \"출장 경로 및 기간 내 적정 지출로 확인되어 합격\"\n}"
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.agent",
+                      "typeVersion":  3,
+                      "position":  [
+                                       1168,
+                                       256
+                                   ],
+                      "id":  "4765f445-9f1a-4113-9be6-9e80d09ef70e",
+                      "name":  "AI Judgement"
+                  },
+                  {
+                      "parameters":  {
+                                         "model":  "solar-pro2",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-upstage.lmChatModelUpstage",
+                      "typeVersion":  1,
+                      "position":  [
+                                       1152,
+                                       400
+                                   ],
+                      "id":  "ea0866bf-1064-4ac9-ad8f-dcfc4fb5ef90",
+                      "name":  "Solar Agent1"
+                  },
+                  {
+                      "parameters":  {
+                                         "model":  "solar-pro2",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-upstage.lmChatModelUpstage",
+                      "typeVersion":  1,
+                      "position":  [
+                                       1280,
+                                       608
+                                   ],
+                      "id":  "0a10929a-d228-48b2-8c83-fbeec55257e2",
+                      "name":  "Solar Agent2"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "a785e859-d415-43dc-8bde-6d42b46c2cff",
+                                                                                     "name":  "지출일시",
+                                                                                     "value":  "={{ $(\u0027Edit Fields\u0027).item.json[\u0027지출일시\u0027] }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "95e9bf46-6f86-454b-9519-79b2c2ca62ad",
+                                                                                     "name":  "지출처",
+                                                                                     "value":  "={{ $(\u0027Edit Fields\u0027).item.json[\u0027지출처\u0027] }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "53554f06-6633-4dc8-8d54-84f9d88068ee",
+                                                                                     "name":  "지출분류",
+                                                                                     "value":  "={{ $(\u0027Edit Fields\u0027).item.json[\u0027지출분류\u0027] }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "2845a57e-f2cd-4dc8-9dae-f44bcfa10fcc",
+                                                                                     "name":  "지출내용",
+                                                                                     "value":  "={{ $(\u0027Edit Fields\u0027).item.json[\u0027지출내용\u0027] }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "508566e3-7620-43c8-9e3a-4e3f68479d36",
+                                                                                     "name":  "금액",
+                                                                                     "value":  "={{ $(\u0027Edit Fields\u0027).item.json[\u0027금액\u0027] }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "c8f562f1-4f9e-462d-ae83-bdaccf988be4",
+                                                                                     "name":  "승인여부",
+                                                                                     "value":  "={{ $json.output.judgment }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "26479ea4-0544-455e-a965-5b6d8106aa38",
+                                                                                     "name":  "비고",
+                                                                                     "value":  "={{ $json.output.reason }}",
+                                                                                     "type":  "string"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.4,
+                      "position":  [
+                                       1472,
+                                       256
+                                   ],
+                      "id":  "6353ab09-6152-4994-b245-06f77c9b52d7",
+                      "name":  "Edit Fields1"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "return [\n  {\n    data: items.map(item =\u003e item.json)\n  }\n];\n"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       1920,
+                                       240
+                                   ],
+                      "id":  "d31acc9f-9809-40b4-83f4-9dd0a46037e9",
+                      "name":  "Get one item"
+                  },
+                  {
+                      "parameters":  {
+                                         "httpMethod":  "POST",
+                                         "path":  "apply",
+                                         "responseMode":  "responseNode",
+                                         "options":  {
+                                                         "allowedOrigins":  "*",
+                                                         "binaryPropertyName":  "data"
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.webhook",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       -144,
+                                       240
+                                   ],
+                      "id":  "245a6e34-f94e-481c-b00f-3618524f8a1d",
+                      "name":  "Webhook",
+                      "webhookId":  "PUBLIC_WEBHOOK_ID"
+                  },
+                  {
+                      "parameters":  {
+                                         "respondWith":  "json",
+                                         "responseBody":  "{ \"success\": true }",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.respondToWebhook",
+                      "typeVersion":  1.4,
+                      "position":  [
+                                       2304,
+                                       656
+                                   ],
+                      "id":  "366d81eb-10ef-4c4a-8ee7-470f29c8bda0",
+                      "name":  "Email Respond"
+                  },
+                  {
+                      "parameters":  {
+                                         "httpMethod":  "POST",
+                                         "path":  "email",
+                                         "responseMode":  "responseNode",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.webhook",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       1952,
+                                       656
+                                   ],
+                      "id":  "06448d48-843f-4fc0-9025-626d84fa1cf3",
+                      "name":  "Email Webhook",
+                      "webhookId":  "PUBLIC_WEBHOOK_ID"
+                  },
+                  {
+                      "parameters":  {
+                                         "respondWith":  "text",
+                                         "responseBody":  "={{ $json.html_content }}",
+                                         "options":  {
+                                                         "responseHeaders":  {
+                                                                                 "entries":  [
+                                                                                                 {
+                                                                                                     "name":  "Content-Type",
+                                                                                                     "value":  "text/html"
+                                                                                                 }
+                                                                                             ]
+                                                                             }
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.respondToWebhook",
+                      "typeVersion":  1.4,
+                      "position":  [
+                                       2496,
+                                       240
+                                   ],
+                      "id":  "e64daf0f-acff-4345-8ffd-b42747e604b6",
+                      "name":  "Report Respond"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "// [설정] 이메일 발송을 처리할 다음 단계의 Webhook URL (POST)\nconst webhookUrl = \"https://your-n8n-host.example/webhook/email\";\n\n// [설정] 푸터에 들어갈 구글 시트 링크\nconst sheetUrl = \"https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=sharing\";\n\n// 이전 노드에서 Markdown 데이터 가져오기\nconst markdownData = items[0].json.output || \"# 데이터가 없습니다.\";\n\nconst html = `\n\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"ko\"\u003e\n\u003chead\u003e\n    \u003cmeta charset=\"UTF-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\n    \u003ctitle\u003e분석 결과 보고서\u003c/title\u003e\n    \u003cscript src=\"https://cdn.jsdelivr.net/npm/marked/marked.min.js\"\u003e\u003c/script\u003e\n    \u003clink rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\"\u003e\n    \n    \u003cstyle\u003e\n        /* 웹 페이지용 스타일 */\n        :root {\n            --bg-color: #fafafa; --card-bg: #ffffff;\n            --text-main: #18181b; --text-muted: #71717a;\n            --border-color: #e4e4e7;\n            --primary-color: #18181b; --primary-text: #ffffff;\n            --success-color: #10b981; --error-color: #ef4444;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;\n            background-color: var(--bg-color); color: var(--text-main);\n            line-height: 1.6; padding: 40px 20px;\n            display: flex; justify-content: center;\n        }\n\n        .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }\n        \n        .card {\n            background: var(--card-bg); border: 1px solid var(--border-color);\n            border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden;\n        }\n\n        .report-content { padding: 40px; }\n        .report-content h1 { font-size: 24px; font-weight: 800; margin-bottom: 24px; border-bottom: 2px solid var(--primary-color); padding-bottom: 16px; }\n        .report-content h2 { font-size: 20px; font-weight: 700; margin-top: 32px; margin-bottom: 16px; }\n        .report-content table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 24px; }\n        .report-content th { background-color: #f4f4f5; font-weight: 600; padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left; }\n        .report-content td { padding: 12px; border-bottom: 1px solid var(--border-color); }\n\n        .action-area {\n            padding: 24px; background: #fafafa; border-top: 1px solid var(--border-color);\n            display: flex; flex-direction: column; gap: 16px;\n        }\n        .input-group { display: flex; gap: 12px; }\n        input[type=\"email\"] { flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; }\n        button { background: var(--primary-color); color: white; border: none; padding: 0 24px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: 0.2s; }\n        \n        #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }\n        .toast { min-width: 300px; padding: 16px; border-radius: 8px; background: white; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; items-center; gap: 12px; transform: translateX(120%); transition: transform 0.3s; }\n        .toast.show { transform: translateX(0); }\n        .toast.success i { color: var(--success-color); }\n        .toast.error i { color: var(--error-color); }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\n    \u003cdiv class=\"container\"\u003e\n        \u003cdiv class=\"card\"\u003e\n            \u003cdiv id=\"report-output\" class=\"report-content\"\u003e\u003c/div\u003e\n            \n            \u003cdiv class=\"action-area\"\u003e\n                \u003cdiv\u003e\n                    \u003ch4 style=\"margin:0 0 8px 0; font-size: 15px;\"\u003e결과 리포트 전송\u003c/h4\u003e\n                    \u003cp style=\"margin:0; font-size: 13px; color: var(--text-muted);\"\u003e이메일을 입력하면 보고서를 보내드립니다.\u003c/p\u003e\n                \u003c/div\u003e\n                \u003cform id=\"emailForm\" class=\"input-group\"\u003e\n                    \u003cinput type=\"email\" id=\"emailInput\" placeholder=\"example@company.com\" required\u003e\n                    \u003cbutton type=\"submit\" id=\"submitBtn\"\u003e\n                        \u003ci class=\"fa-regular fa-paper-plane\"\u003e\u003c/i\u003e 전송\n                    \u003c/button\u003e\n                \u003c/form\u003e\n            \u003c/div\u003e\n        \u003c/div\u003e\n        \u003cdiv style=\"text-align:center; font-size:12px; color:var(--text-muted);\"\u003eAutomated Audit System\u003c/div\u003e\n    \u003c/div\u003e\n\n    \u003cdiv id=\"toast-container\"\u003e\u003c/div\u003e\n\n    \u003cscript\u003e\n        const rawMarkdown = ${JSON.stringify(markdownData)};\n        const sheetLink = \"${sheetUrl}\";\n        \n        document.getElementById(\u0027report-output\u0027).innerHTML = marked.parse(rawMarkdown);\n\n        // [수정됨] 이메일 템플릿 생성 함수\n        function generateEmailTemplate(contentHtml) {\n            return \\`\n            \u003c!DOCTYPE html\u003e\n            \u003chtml\u003e\n            \u003chead\u003e\n                \u003cstyle\u003e\n                    body { font-family: sans-serif; background-color: #fafafa; margin: 0; padding: 20px; }\n                    .email-container { max-width: 800px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 8px; overflow: hidden; }\n                    .email-content { padding: 40px; color: #18181b; line-height: 1.6; }\n                    \n                    h1 { font-size: 24px; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid #18181b; padding-bottom: 10px; color: #18181b; }\n                    h2 { font-size: 20px; font-weight: 700; margin-top: 30px; margin-bottom: 15px; color: #18181b; }\n                    p { margin-bottom: 15px; color: #3f3f46; }\n                    ul { padding-left: 20px; margin-bottom: 15px; color: #3f3f46; }\n                    \n                    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }\n                    th { background-color: #f4f4f5; padding: 10px; border-bottom: 1px solid #e4e4e7; text-align: left; color: #18181b; }\n                    td { padding: 10px; border-bottom: 1px solid #e4e4e7; color: #3f3f46; }\n                    \n                    .email-footer { background-color: #fafafa; padding: 20px; text-align: center; border-top: 1px solid #e4e4e7; font-size: 13px; color: #71717a; }\n                \u003c/style\u003e\n            \u003c/head\u003e\n            \u003cbody\u003e\n                \u003cdiv class=\"email-container\"\u003e\n                    \u003cdiv class=\"email-content\"\u003e\n                        \\${contentHtml}\n                    \u003c/div\u003e\n                    \u003cdiv class=\"email-footer\"\u003e\n                        \u003cp\u003e상세 데이터는 구글 시트에서 확인하실 수 있습니다.\u003c/p\u003e\n                        \u003ca href=\"\\${sheetLink}\" target=\"_blank\" \n                           style=\"display: inline-block; padding: 12px 24px; background-color: #18181b; color: #ffffff !important; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;\"\u003e\n                           Google Sheet 바로가기\n                        \u003c/a\u003e\n                        \u003cdiv style=\"margin-top: 20px; font-size: 11px; color: #a1a1aa;\"\u003e\n                            Automated Audit System by n8n \u0026 Solar LLM\n                        \u003c/div\u003e\n                    \u003c/div\u003e\n                \u003c/div\u003e\n            \u003c/body\u003e\n            \u003c/html\u003e\n            \\`;\n        }\n\n        function showToast(message, type = \u0027success\u0027) {\n            const container = document.getElementById(\u0027toast-container\u0027);\n            const toast = document.createElement(\u0027div\u0027);\n            const icon = type === \u0027success\u0027 ? \u0027fa-circle-check\u0027 : \u0027fa-circle-exclamation\u0027;\n            \n            toast.className = \\`toast \\${type}\\`;\n            toast.innerHTML = \\`\u003ci class=\"fa-solid \\${icon} text-lg\"\u003e\u003c/i\u003e\u003cspan\u003e\\${message}\u003c/span\u003e\\`;\n            container.appendChild(toast);\n            requestAnimationFrame(() =\u003e { toast.classList.add(\u0027show\u0027); });\n            setTimeout(() =\u003e {\n                toast.classList.remove(\u0027show\u0027);\n                setTimeout(() =\u003e toast.remove(), 300);\n            }, 3000);\n        }\n\n        const form = document.getElementById(\u0027emailForm\u0027);\n        const emailInput = document.getElementById(\u0027emailInput\u0027);\n        const submitBtn = document.getElementById(\u0027submitBtn\u0027);\n        const targetUrl = \"${webhookUrl}\";\n\n        form.addEventListener(\u0027submit\u0027, async function(e) {\n            e.preventDefault();\n            const originalBtnContent = submitBtn.innerHTML;\n            submitBtn.innerHTML = \u0027\u003ci class=\"fa-solid fa-spinner fa-spin\"\u003e\u003c/i\u003e 생성 중...\u0027;\n            submitBtn.disabled = true;\n\n            try {\n                const contentHtml = marked.parse(rawMarkdown);\n                const finalEmailHtml = generateEmailTemplate(contentHtml);\n\n                const payload = {\n                    email: emailInput.value,\n                    report_content: finalEmailHtml\n                };\n\n                submitBtn.innerHTML = \u0027\u003ci class=\"fa-solid fa-spinner fa-spin\"\u003e\u003c/i\u003e 전송 중...\u0027;\n\n                const response = await fetch(targetUrl, {\n                    method: \u0027POST\u0027,\n                    headers: { \u0027Content-Type\u0027: \u0027application/json\u0027 },\n                    body: JSON.stringify(payload)\n                });\n\n                if (response.ok) {\n                    showToast(\u0027이메일이 성공적으로 발송되었습니다!\u0027, \u0027success\u0027);\n                    emailInput.value = \u0027\u0027;\n                } else {\n                    throw new Error(\u0027Response not ok\u0027);\n                }\n\n            } catch (error) {\n                console.error(\u0027Error:\u0027, error);\n                showToast(\u0027전송에 실패했습니다.\u0027, \u0027error\u0027);\n            } finally {\n                submitBtn.innerHTML = originalBtnContent;\n                submitBtn.disabled = false;\n            }\n        });\n    \u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n`;\n\nreturn { json: { html_content: html } };"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       2336,
+                                       240
+                                   ],
+                      "id":  "00ae919a-e594-4e50-ad4a-921c1406b125",
+                      "name":  "Report Code"
+                  },
+                  {
+                      "parameters":  {
+                                         "path":  "index",
+                                         "responseMode":  "responseNode",
+                                         "options":  {
+                                                         "allowedOrigins":  "*"
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.webhook",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       -128,
+                                       -32
+                                   ],
+                      "id":  "17c4336c-e2bd-45ed-9b3c-843447bca9ef",
+                      "name":  "Init Webhook",
+                      "webhookId":  "PUBLIC_WEBHOOK_ID"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "// [설정] 데이터를 처리할 백엔드 워크플로의 Webhook URL (POST Method)\nconst webhookUrl = \"https://your-n8n-host.example/webhook/apply\";\n\nconst html = `\n\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"ko\"\u003e\n\u003chead\u003e\n    \u003cmeta charset=\"UTF-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\n    \u003ctitle\u003e지능형 출장비 부정 청구 탐지 시스템\u003c/title\u003e\n    \u003clink rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\"\u003e\n    \n    \u003cstyle\u003e\n        /* Franken UI (Zinc 테마) 스타일 직접 정의 - 깨짐 방지용 */\n        :root {\n            --bg-color: #fafafa;\n            --card-bg: #ffffff;\n            --text-main: #18181b; /* Zinc-900 */\n            --text-muted: #71717a; /* Zinc-500 */\n            --border-color: #e4e4e7; /* Zinc-200 */\n            --primary-color: #18181b;\n            --primary-text: #ffffff;\n            --focus-ring: rgba(24, 24, 27, 0.1);\n        }\n\n        * { box-sizing: border-box; margin: 0; padding: 0; }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif;\n            background-color: var(--bg-color);\n            color: var(--text-main);\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            min-height: 100vh;\n            padding: 20px;\n        }\n\n        /* 카드 컨테이너 */\n        .card {\n            background: var(--card-bg);\n            width: 100%;\n            max-width: 550px;\n            border: 1px solid var(--border-color);\n            border-radius: 12px;\n            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);\n            overflow: hidden;\n        }\n\n        /* 헤더 */\n        .header {\n            background: #fafafa; /* Zinc-50 slightly darker */\n            padding: 32px 24px;\n            text-align: center;\n            border-bottom: 1px solid var(--border-color);\n        }\n        .icon-box {\n            width: 48px; height: 48px;\n            background: var(--primary-color);\n            color: white;\n            border-radius: 8px;\n            display: flex; align-items: center; justify-content: center;\n            margin: 0 auto 16px;\n            font-size: 20px;\n        }\n        .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }\n        .header p { font-size: 14px; color: var(--text-muted); line-height: 1.5; }\n\n        /* 폼 영역 */\n        .form-body { padding: 32px 24px; }\n        \n        .form-group { margin-bottom: 20px; }\n        .form-group label {\n            display: block;\n            font-size: 14px;\n            font-weight: 500;\n            margin-bottom: 8px;\n            display: flex; align-items: center; gap: 6px;\n        }\n        .required { color: #ef4444; }\n        .hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }\n\n        /* 인풋 스타일 */\n        input[type=\"text\"], input[type=\"date\"], input[type=\"file\"] {\n            display: block;\n            width: 100%;\n            padding: 10px 12px;\n            font-size: 14px;\n            line-height: 1.5;\n            color: var(--text-main);\n            background-color: transparent;\n            border: 1px solid var(--border-color);\n            border-radius: 6px;\n            transition: border-color 0.15s, box-shadow 0.15s;\n            height: 42px;\n        }\n\n        input:focus {\n            outline: none;\n            border-color: var(--primary-color);\n            box-shadow: 0 0 0 2px var(--focus-ring);\n        }\n\n        /* 파일 인풋 커스텀 */\n        input[type=\"file\"] { padding: 6px; }\n        input[type=\"file\"]::file-selector-button {\n            background-color: var(--primary-color);\n            color: white;\n            border: none;\n            padding: 6px 12px;\n            margin-right: 12px;\n            border-radius: 4px;\n            font-size: 12px;\n            font-weight: 500;\n            cursor: pointer;\n        }\n        input[type=\"file\"]::file-selector-button:hover { background-color: #27272a; }\n\n        /* 그리드 레이아웃 */\n        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }\n        \n        /* 구분선 */\n        .divider { height: 1px; background: var(--border-color); margin: 24px 0; }\n\n        /* 버튼 */\n        .btn-submit {\n            width: 100%;\n            background-color: var(--primary-color);\n            color: var(--primary-text);\n            font-weight: 500;\n            padding: 12px;\n            border-radius: 6px;\n            border: none;\n            cursor: pointer;\n            display: flex; justify-content: center; align-items: center; gap: 8px;\n            font-size: 14px;\n            transition: background-color 0.2s;\n            margin-top: 8px;\n        }\n        .btn-submit:hover { background-color: #27272a; }\n\n        /* 푸터 */\n        .footer {\n            background: #fafafa;\n            padding: 16px 24px;\n            border-top: 1px solid var(--border-color);\n            display: flex; justify-content: space-between;\n            font-size: 12px; color: var(--text-muted);\n        }\n\n        /* 로딩 오버레이 */\n        #loading-overlay {\n            display: none;\n            position: fixed;\n            top: 0; left: 0; width: 100%; height: 100%;\n            background: rgba(255, 255, 255, 0.95);\n            z-index: 9999;\n            flex-direction: column;\n            align-items: center;\n            justify-content: center;\n        }\n        .spinner {\n            border: 3px solid #f3f3f3;\n            border-top: 3px solid var(--primary-color);\n            border-radius: 50%;\n            width: 32px; height: 32px;\n            animation: spin 0.8s linear infinite;\n            margin-bottom: 16px;\n        }\n        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }\n\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\n    \u003cdiv id=\"loading-overlay\"\u003e\n        \u003cdiv class=\"spinner\"\u003e\u003c/div\u003e\n        \u003ch3 style=\"font-weight: 700; font-size: 18px; margin-bottom: 8px;\"\u003eAI 분석 중...\u003c/h3\u003e\n        \u003cp style=\"color: var(--text-muted); font-size: 14px;\"\u003e영수증 내역과 이동 경로를 대조하고 있습니다.\u003c/p\u003e\n    \u003c/div\u003e\n\n    \u003cdiv class=\"card\"\u003e\n        \u003cdiv class=\"header\"\u003e\n            \u003cdiv class=\"icon-box\"\u003e\u003ci class=\"fa-solid fa-shield-halved\"\u003e\u003c/i\u003e\u003c/div\u003e\n            \u003ch1\u003e출장비 심사 제출\u003c/h1\u003e\n            \u003cp\u003e위치 기반 데이터와 Solar LLM을 결합한\u003cbr\u003e지능형 부정 청구 탐지 시스템\u003c/p\u003e\n        \u003c/div\u003e\n\n        \u003cform id=\"auditForm\" action=\"${webhookUrl}\" method=\"POST\" enctype=\"multipart/form-data\" class=\"form-body\"\u003e\n            \n            \u003cdiv class=\"form-group\"\u003e\n                \u003clabel\u003e\u003ci class=\"fa-solid fa-receipt\" style=\"color: #a1a1aa;\"\u003e\u003c/i\u003e 증빙 영수증 (다중 선택 가능) \u003cspan class=\"required\"\u003e*\u003c/span\u003e\u003c/label\u003e\n                \u003cinput id=\"file\" name=\"file\" type=\"file\" multiple required accept=\"image/*,application/pdf\"\u003e\n                \u003cdiv class=\"hint\"\u003e여러 장의 영수증을 한 번에 선택할 수 있습니다.\u003c/div\u003e\n            \u003c/div\u003e\n\n            \u003cdiv class=\"divider\"\u003e\u003c/div\u003e\n\n            \u003cdiv class=\"grid-2 form-group\"\u003e\n                \u003cdiv\u003e\n                    \u003clabel\u003e출장 시작일\u003c/label\u003e\n                    \u003cinput type=\"date\" name=\"start_date\" required\u003e\n                \u003c/div\u003e\n                \u003cdiv\u003e\n                    \u003clabel\u003e출장 복귀일\u003c/label\u003e\n                    \u003cinput type=\"date\" name=\"end_date\" required\u003e\n                \u003c/div\u003e\n            \u003c/div\u003e\n\n            \u003cdiv class=\"grid-2 form-group\"\u003e\n                \u003cdiv\u003e\n                    \u003clabel\u003e출발지 (Origin)\u003c/label\u003e\n                    \u003cinput type=\"text\" name=\"origin\" placeholder=\"예: 서울역\" required\u003e\n                \u003c/div\u003e\n                \u003cdiv\u003e\n                    \u003clabel\u003e목적지 (Destination)\u003c/label\u003e\n                    \u003cinput type=\"text\" name=\"destination\" placeholder=\"예: 부산 벡스코\" required\u003e\n                \u003c/div\u003e\n            \u003c/div\u003e\n\n            \u003cbutton type=\"submit\" class=\"btn-submit\"\u003e\n                \u003cspan\u003e심사 요청하기\u003c/span\u003e\n                \u003ci class=\"fa-solid fa-arrow-right\"\u003e\u003c/i\u003e\n            \u003c/button\u003e\n        \u003c/form\u003e\n\n        \u003cdiv class=\"footer\"\u003e\n            \u003cspan\u003ePowered by n8n \u0026 Solar LLM\u003c/span\u003e\n            \u003cspan style=\"font-family: monospace;\"\u003eV.1.0.0\u003c/span\u003e\n        \u003c/div\u003e\n    \u003c/div\u003e\n\n    \u003cscript\u003e\n        const form = document.getElementById(\u0027auditForm\u0027);\n        const loadingOverlay = document.getElementById(\u0027loading-overlay\u0027);\n\n        form.addEventListener(\u0027submit\u0027, function() {\n            if (form.checkValidity()) {\n                loadingOverlay.style.display = \u0027flex\u0027;\n            }\n        });\n    \u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n`;\n\nreturn { json: { html_content: html } };"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       80,
+                                       -32
+                                   ],
+                      "id":  "fb7f8d1f-15ef-44d9-98b2-71b0bd0017bc",
+                      "name":  "Init Code"
+                  },
+                  {
+                      "parameters":  {
+                                         "respondWith":  "text",
+                                         "responseBody":  "={{ $json.html_content }}",
+                                         "options":  {
+                                                         "responseHeaders":  {
+                                                                                 "entries":  [
+                                                                                                 {
+                                                                                                     "name":  "Content-Type",
+                                                                                                     "value":  "text/html"
+                                                                                                 }
+                                                                                             ]
+                                                                             }
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.respondToWebhook",
+                      "typeVersion":  1.4,
+                      "position":  [
+                                       288,
+                                       -32
+                                   ],
+                      "id":  "ff818400-b252-4954-9a5e-bb0a38989fd7",
+                      "name":  "Init Respond"
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "={{ $json.body[\u0027email\u0027] }}",
+                                         "subject":  "출장 경비 지출 리포트",
+                                         "message":  "={{ $json.body[\u0027report_content\u0027] }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       2128,
+                                       656
+                                   ],
+                      "id":  "5db2f574-93a7-4325-ad41-1ce8e48e6db6",
+                      "name":  "Send a mail",
+                      "webhookId":  "PUBLIC_WEBHOOK_ID"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "## 결과 이메일로 전송 (선택)\n",
+                                         "height":  288,
+                                         "width":  624
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       1888,
+                                       560
+                                   ],
+                      "id":  "bcc08c90-2248-42ce-a4e1-843c65f3a435",
+                      "name":  "Sticky Note6"
+                  },
+                  {
+                      "parameters":  {
+                                         "content":  "## 프론트엔드\n",
+                                         "height":  192,
+                                         "width":  656
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -176,
+                                       -80
+                                   ],
+                      "id":  "8261b4ca-13d1-425d-9e4f-acd3bf1ae839",
+                      "name":  "Sticky Note7"
+                  }
+              ],
+    "pinData":  {
+
+                },
+    "connections":  {
+                        "Classify Recipe":  {
+                                                "main":  [
+                                                             [
+                                                                 {
+                                                                     "node":  "Merge",
+                                                                     "type":  "main",
+                                                                     "index":  1
+                                                                 }
+                                                             ]
+                                                         ]
+                                            },
+                        "Extract Info":  {
+                                             "main":  [
+                                                          [
+                                                              {
+                                                                  "node":  "Merge",
+                                                                  "type":  "main",
+                                                                  "index":  0
+                                                              }
+                                                          ]
+                                                      ]
+                                         },
+                        "Merge":  {
+                                      "main":  [
+                                                   [
+                                                       {
+                                                           "node":  "Merge items",
+                                                           "type":  "main",
+                                                           "index":  0
+                                                       }
+                                                   ]
+                                               ]
+                                  },
+                        "Merge items":  {
+                                            "main":  [
+                                                         [
+                                                             {
+                                                                 "node":  "Edit Fields",
+                                                                 "type":  "main",
+                                                                 "index":  0
+                                                             }
+                                                         ]
+                                                     ]
+                                        },
+                        "Loop Over Items":  {
+                                                "main":  [
+                                                             [
+                                                                 {
+                                                                     "node":  "Get one item",
+                                                                     "type":  "main",
+                                                                     "index":  0
+                                                                 }
+                                                             ],
+                                                             [
+                                                                 {
+                                                                     "node":  "Extract Info",
+                                                                     "type":  "main",
+                                                                     "index":  0
+                                                                 },
+                                                                 {
+                                                                     "node":  "Classify Recipe",
+                                                                     "type":  "main",
+                                                                     "index":  0
+                                                                 }
+                                                             ]
+                                                         ]
+                                            },
+                        "Handle multiple files":  {
+                                                      "main":  [
+                                                                   [
+                                                                       {
+                                                                           "node":  "Loop Over Items",
+                                                                           "type":  "main",
+                                                                           "index":  0
+                                                                       }
+                                                                   ]
+                                                               ]
+                                                  },
+                        "Get Dest":  {
+                                         "main":  [
+                                                      [
+                                                          {
+                                                              "node":  "Get Route",
+                                                              "type":  "main",
+                                                              "index":  0
+                                                          }
+                                                      ]
+                                                  ]
+                                     },
+                        "Get Origin":  {
+                                           "main":  [
+                                                        [
+                                                            {
+                                                                "node":  "Get Dest",
+                                                                "type":  "main",
+                                                                "index":  0
+                                                            }
+                                                        ]
+                                                    ]
+                                       },
+                        "Get Route":  {
+                                          "main":  [
+                                                       [
+                                                           {
+                                                               "node":  "Merge",
+                                                               "type":  "main",
+                                                               "index":  2
+                                                           }
+                                                       ]
+                                                   ]
+                                      },
+                        "Edit Fields":  {
+                                            "main":  [
+                                                         [
+                                                             {
+                                                                 "node":  "AI Judgement",
+                                                                 "type":  "main",
+                                                                 "index":  0
+                                                             }
+                                                         ]
+                                                     ]
+                                        },
+                        "Append to Sheet":  {
+                                                "main":  [
+                                                             [
+                                                                 {
+                                                                     "node":  "Loop Over Items",
+                                                                     "type":  "main",
+                                                                     "index":  0
+                                                                 }
+                                                             ]
+                                                         ]
+                                            },
+                        "Result Summarizer":  {
+                                                  "main":  [
+                                                               [
+                                                                   {
+                                                                       "node":  "Report Code",
+                                                                       "type":  "main",
+                                                                       "index":  0
+                                                                   }
+                                                               ]
+                                                           ]
+                                              },
+                        "Structured Output Parser":  {
+                                                         "ai_outputParser":  [
+                                                                                 [
+                                                                                     {
+                                                                                         "node":  "AI Judgement",
+                                                                                         "type":  "ai_outputParser",
+                                                                                         "index":  0
+                                                                                     }
+                                                                                 ]
+                                                                             ]
+                                                     },
+                        "Solar Agent":  {
+                                            "ai_languageModel":  [
+                                                                     [
+                                                                         {
+                                                                             "node":  "Result Summarizer",
+                                                                             "type":  "ai_languageModel",
+                                                                             "index":  0
+                                                                         }
+                                                                     ]
+                                                                 ]
+                                        },
+                        "Solar Agent1":  {
+                                             "ai_languageModel":  [
+                                                                      [
+                                                                          {
+                                                                              "node":  "AI Judgement",
+                                                                              "type":  "ai_languageModel",
+                                                                              "index":  0
+                                                                          }
+                                                                      ]
+                                                                  ]
+                                         },
+                        "Solar Agent2":  {
+                                             "ai_languageModel":  [
+                                                                      [
+                                                                          {
+                                                                              "node":  "Structured Output Parser",
+                                                                              "type":  "ai_languageModel",
+                                                                              "index":  0
+                                                                          }
+                                                                      ]
+                                                                  ]
+                                         },
+                        "AI Judgement":  {
+                                             "main":  [
+                                                          [
+                                                              {
+                                                                  "node":  "Edit Fields1",
+                                                                  "type":  "main",
+                                                                  "index":  0
+                                                              }
+                                                          ]
+                                                      ]
+                                         },
+                        "Edit Fields1":  {
+                                             "main":  [
+                                                          [
+                                                              {
+                                                                  "node":  "Append to Sheet",
+                                                                  "type":  "main",
+                                                                  "index":  0
+                                                              }
+                                                          ]
+                                                      ]
+                                         },
+                        "Get one item":  {
+                                             "main":  [
+                                                          [
+                                                              {
+                                                                  "node":  "Result Summarizer",
+                                                                  "type":  "main",
+                                                                  "index":  0
+                                                              }
+                                                          ]
+                                                      ]
+                                         },
+                        "Webhook":  {
+                                        "main":  [
+                                                     [
+                                                         {
+                                                             "node":  "Handle multiple files",
+                                                             "type":  "main",
+                                                             "index":  0
+                                                         },
+                                                         {
+                                                             "node":  "Get Origin",
+                                                             "type":  "main",
+                                                             "index":  0
+                                                         }
+                                                     ]
+                                                 ]
+                                    },
+                        "Email Webhook":  {
+                                              "main":  [
+                                                           [
+                                                               {
+                                                                   "node":  "Send a mail",
+                                                                   "type":  "main",
+                                                                   "index":  0
+                                                               }
+                                                           ]
+                                                       ]
+                                          },
+                        "Report Code":  {
+                                            "main":  [
+                                                         [
+                                                             {
+                                                                 "node":  "Report Respond",
+                                                                 "type":  "main",
+                                                                 "index":  0
+                                                             }
+                                                         ]
+                                                     ]
+                                        },
+                        "Init Webhook":  {
+                                             "main":  [
+                                                          [
+                                                              {
+                                                                  "node":  "Init Code",
+                                                                  "type":  "main",
+                                                                  "index":  0
+                                                              }
+                                                          ]
+                                                      ]
+                                         },
+                        "Init Code":  {
+                                          "main":  [
+                                                       [
+                                                           {
+                                                               "node":  "Init Respond",
+                                                               "type":  "main",
+                                                               "index":  0
+                                                           }
+                                                       ]
+                                                   ]
+                                      },
+                        "Send a mail":  {
+                                            "main":  [
+                                                         [
+                                                             {
+                                                                 "node":  "Email Respond",
+                                                                 "type":  "main",
+                                                                 "index":  0
+                                                             }
+                                                         ]
+                                                     ]
+                                        }
+                    },
+    "active":  false,
+    "settings":  {
+                     "executionOrder":  "v1"
+                 },
+    "versionId":  "PUBLIC_VERSION",
+    "meta":  {
+                 "templateCredsSetupCompleted":  false,
+                 "instanceId":  "PUBLIC_INSTANCE"
+             },
+    "id":  "PUBLIC_DEMO_WORKFLOW",
+    "tags":  [
+
+             ]
+}
