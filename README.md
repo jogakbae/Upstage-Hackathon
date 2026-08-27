@@ -139,8 +139,8 @@
 
 ## 팀 역할
 
-| 이름 | 역할 |
-| --- | --- |
-| 천창용 | 팀장, AI Agent 처리, 발표 |
-| 조희종 | n8n 워크플로 총괄, 기능 구현 |
-| 최현호 | 거리 계산 시스템 구현, 기능 구현 |
+| 이름 | 역할 | GitHub |
+| --- | --- | --- |
+| 천창용 | 팀장, AI Agent 처리, 발표 | https://github.com/You42Gwa |
+| 조희종 | n8n 워크플로 총괄, 기능 구현 | https://github.com/WhiPaper |
+| 최현호 | 거리 계산 시스템 구현, 기능 구현 | https://github.com/hoboy1 |
